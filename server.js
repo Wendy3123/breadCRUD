@@ -6,25 +6,25 @@ require('dotenv').config()
 const PORT= process.env.PORT
 const app = express()
 
-//ROUTES
-app.get('/',(req,res)=>{
-    res.send('Welcome to Wendys Awesome App about Breads')
-})
-
-app.get('*',(req,res)=>{
-    res.render('error404')
-})
-
 // MIDDLEWARE
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine())
 app.use(express.static('public'))
 
+//ROUTES
+app.get('/',(req,res)=>{
+    res.send('Welcome to Wendys Awesome App about Breads')
+})
 
 //BREADS
 const breadsController= require('./controllers/breads_controller.js')
 app.use('/breads',breadsController)
+
+//404 PAGE
+app.get('*',(req,res)=>{
+    res.render('error404')
+})
 
 //LISTEN
 app.listen(PORT,()=>{

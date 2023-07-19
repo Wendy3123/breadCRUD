@@ -17,12 +17,13 @@ breads.get('/', (req, res) => {
 breads.get('/:arrayIndex', (req, res) => {
   if (Bread[req.params.arrayIndex]) {
     res.render('show', {
-      bread: Bread[req.params.arrayIndex]
+      bread:Bread[req.params.arrayIndex]
     })
-  } else {
+  } else { 
     res.render('error404')
   }
 })
 
 
 module.exports = breads
+//end of pt3 day4

@@ -19,7 +19,6 @@ function Default(html) {
           </div>
         </div>
       </body>
-
     </html>
   )
 }
