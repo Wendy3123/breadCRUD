@@ -12,7 +12,7 @@ app.get('/',(req,res)=>{
 })
 
 app.get('*',(req,res)=>{
-    res.send('404')
+    res.render('error404')
 })
 
 // MIDDLEWARE
