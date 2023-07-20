@@ -13,6 +13,12 @@ function Show ({bread, index}) {
             }
                 have gluten.
             </p>
+            <ul>
+                {bread.ingredients.map((item)=>{
+                    return <li>{item}</li>
+                })}
+                
+            </ul>
             <a href={`/breads/${index}/edit`}><button>Edit</button></a>
             <img src={bread.image} alt={bread.name}></img>
 
