@@ -40,8 +40,8 @@ breads.post('/', (req, res) => {
   } else {
     req.body.hasGluten = false
   }
-  Bread.push(req.body)
-  res.redirect('/breads')
+  Bread.push(req.body)    //adds new created bread to the list of breads
+  res.redirect('/breads')     //redirects back to the index /breads page
 })
 
 // DELETE
@@ -50,9 +50,24 @@ breads.delete('/:indexArray', (req, res) => {
   res.status(303).redirect('/breads')   //303 Status Code occurs when a page has been temporarily moved. As a result, the server can't connect to the requested resource. Instead, you'll be redirected to a new page
 })
 
+// UPDATE
+breads.put('/:arrayIndex', (req, res) => {
+  if(req.body.hasGluten === 'on'){
+    req.body.hasGluten = true
+  } else {
+    req.body.hasGluten = false
+  }
+  Bread[req.params.arrayIndex] = req.body
+  res.redirect(`/breads/${req.params.arrayIndex}`)
+})
 
-
-
+// EDIT
+breads.get('/:indexArray/edit', (req, res) => {
+  res.render('edit', {
+    bread: Bread[req.params.indexArray],
+    index: req.params.indexArray
+  })
+})
 
 
 module.exports = breads
