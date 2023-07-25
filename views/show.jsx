@@ -1,11 +1,11 @@
 const React = require('react')
 const Default = require('./layouts/default')
 
-function Show ({bread, index}) {
-    console.log(bread.name)
+function Show({ bread }) {
     return (
-        <Default>
+        <Default title={bread.name}>
             <h3>{bread.name}</h3>
+            <p>{bread.getBakedBy()}</p>
             <p>and it {
                 bread.hasGluten
                     ? <span> does </span>
@@ -13,16 +13,16 @@ function Show ({bread, index}) {
             }
                 have gluten.
             </p>
-            <ul>
-                {bread.ingredients.map((item)=>{
+            {/* <ul>
+                {bread.ingredients.map((item) => {
                     return <li>{item}</li>
                 })}
-                
-            </ul>
-            <a href={`/breads/${index}/edit`}><button>Edit</button></a>
+
+            </ul> */}
+            <a href={`/breads/${bread.id}/edit`}><button>Edit</button></a>
             <img src={bread.image} alt={bread.name}></img>
 
-            <form action={`/breads/${index}?_method=DELETE`} method="POST">
+            <form action={`/breads/${bread.id}?_method=DELETE`} method="POST">
                 <input type='submit' value="DELETE" />
             </form>
 

@@ -24,6 +24,8 @@ breads.get('/new', (req, res) => {
 breads.get('/:id', (req, res) => {
   Bread.findById(req.params.id)
       .then(foundBread => {
+          const bakedBy = foundBread.getBakedBy()
+          console.log(bakedBy)
           res.render('show', {
               bread: foundBread
           })
@@ -45,32 +47,47 @@ breads.post('/', (req, res) => {
     req.body.hasGluten = false
   }
   Bread.create(req.body)    //adds new created bread to the list of breads
-  res.redirect('/breads')     //redirects back to the index /breads page
+  .then(newBread=>{
+    res.redirect('/breads')     //redirects back to the index /breads page
+  })
+  .catch(err=>{
+    res.render('error404')
+  })
 })
 
 // DELETE
-breads.delete('/:indexArray', (req, res) => {
-  Bread.splice(req.params.indexArray, 1)  // Inserts at index 1
-  res.status(303).redirect('/breads')   //303 Status Code occurs when a page has been temporarily moved. As a result, the server can't connect to the requested resource. Instead, you'll be redirected to a new page
+breads.delete('/:id', (req, res) => {
+  Bread.findByIdAndDelete(req.params.id)
+  .then(res.status(303).redirect('/breads'))  //303 Status Code occurs when a page has been temporarily moved. As a result, the server can't connect to the requested resource. Instead, you'll be redirected to a new page
 })
 
 // UPDATE
-breads.put('/:arrayIndex', (req, res) => {
+breads.put('/:id', (req, res) => {
   if(req.body.hasGluten === 'on'){
     req.body.hasGluten = true
   } else {
     req.body.hasGluten = false
   }
-  Bread[req.params.arrayIndex] = req.body
-  res.redirect(`/breads/${req.params.arrayIndex}`)
+  Bread.findByIdAndUpdate(req.params.id, req.body) //!!!!!!EXPLANANTION ON WHY WE NEED TO ADD REQ.BODY HERE IN ORDER TO WORK
+    .then(updatedBread=>{
+      res.redirect(`/breads/${req.params.id}`)
+    })
+    .catch(err=>{
+      res.render('error404')
+    })
 })
 
 // EDIT
-breads.get('/:indexArray/edit', (req, res) => {
-  res.render('edit', {
-    bread: Bread[req.params.indexArray],
-    index: req.params.indexArray
-  })
+breads.get('/:id/edit', (req, res) => {
+  Bread.findById(req.params.id)
+      .then(foundBread => {
+          res.render('edit', {
+          bread: foundBread
+          })
+      })
+      .catch(err=>{
+        res.render('error404')
+      })
 })
 
 
